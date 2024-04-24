@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDate
 
 data class Exercise(
     val date: LocalDate,
-    val exercise: String,
+    val name: String,
     val reps: Int,
     val weight: Int
 )

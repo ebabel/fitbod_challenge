@@ -44,8 +44,13 @@ import com.example.fitbodchallenge.ui.Graph
 import com.example.fitbodchallenge.ui.theme.FitbodChallengeTheme
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
+import java.net.URLDecoder
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
-private const val ROUTE_EXERCISE_DETAIL = "ExerciseDetail"
+
+private const val ROUTE_EXERCISE_DETAIL_PARAM_NAME = "name"
+private const val ROUTE_EXERCISE_DETAIL = "ExerciseDetail/{$ROUTE_EXERCISE_DETAIL_PARAM_NAME}"
 private const val ROUTE_HOME = "Home"
 
 class MainActivity : ComponentActivity() {
@@ -63,19 +68,29 @@ class MainActivity : ComponentActivity() {
                 ) {
                     composable(ROUTE_HOME) {
                         WorkoutPageContent(
-                            onDetailClicked = {
-                                navController.navigate(ROUTE_EXERCISE_DETAIL)
+                            onDetailClicked = { name ->
+                                navController.navigate(
+                                    ROUTE_EXERCISE_DETAIL.replace(
+                                        "{$ROUTE_EXERCISE_DETAIL_PARAM_NAME}",
+                                        URLEncoder.encode(name, StandardCharsets.UTF_8.toString())
+                                    )
+                                )
                             },
                             exercises = viewModel.exercises.collectAsState(emptyMap()).value,
                         )
                     }
-                    composable(ROUTE_EXERCISE_DETAIL) {
+                    composable(ROUTE_EXERCISE_DETAIL) { navBackStackEntry ->
                         BackHandler {
                             navController.popBackStack()
                         }
                         ExerciseDetailPageContent(
                             onNavigateBack = { navController.popBackStack() },
-                            exercise = "exercise"
+                            exercise = navBackStackEntry
+                                .arguments
+                                ?.getString(ROUTE_EXERCISE_DETAIL_PARAM_NAME)
+                                .let {
+                                    URLDecoder.decode(it, StandardCharsets.UTF_8.toString())
+                                } ?: error("Unexpectedly null argument for name")
                         )
                     }
                 }
@@ -121,7 +136,7 @@ private fun ExerciseDetailPageContent(
         ) {
             ExerciseRow(
                 onDetailClicked = {},
-                exercise = "exercise",
+                name = "exercise",
                 oneRepMax = 1
             )
             Graph()
@@ -140,7 +155,7 @@ private fun PreviewWorkoutPageContent() {
 
 @Composable
 private fun WorkoutPageContent(
-    onDetailClicked: () -> Unit,
+    onDetailClicked: (String) -> Unit,
     exercises: Map<String, Int>
 ) {
 
@@ -163,7 +178,7 @@ private fun WorkoutPageContent(
             items(exercises.entries.toList()) { (exercise, oneRepMax) ->
                 ExerciseRow(
                     onDetailClicked = onDetailClicked,
-                    exercise = exercise,
+                    name = exercise,
                     oneRepMax = oneRepMax
                 )
                 Divider()
@@ -177,7 +192,7 @@ private fun WorkoutPageContent(
 @Composable
 private fun PreviewExerciseRow() {
     Column(Modifier.fillMaxSize()) {
-        ExerciseRow(onDetailClicked = {}, exercise = "example", oneRepMax = 1)
+        ExerciseRow(onDetailClicked = {}, name = "example", oneRepMax = 1)
     }
 }
 
@@ -185,8 +200,8 @@ private fun PreviewExerciseRow() {
 @Composable
 private fun ExerciseRow(
     modifier: Modifier = Modifier,
-    onDetailClicked: () -> Unit,
-    exercise: String,
+    onDetailClicked: (String) -> Unit,
+    name: String,
     oneRepMax: Int,
 ) {
 
@@ -195,12 +210,12 @@ private fun ExerciseRow(
             .fillMaxWidth()
             .padding(15.dp)
             .clickable {
-                onDetailClicked()
+                onDetailClicked(name)
             },
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column {
-            Text(text = exercise, fontWeight = W500)
+            Text(text = name, fontWeight = W500)
             Text(text = "1 RM Record", textAlign = TextAlign.End)
         }
         Column(
@@ -210,13 +225,4 @@ private fun ExerciseRow(
             Text(text = "lbs", fontWeight = W300, textAlign = TextAlign.End)
         }
     }
-}
-
-private val ktorHttpClient = HttpClient(Android) {
-
-
-//
-//    install(DefaultRequest) {
-//        header(HttpHeaders.ContentType, ContentType.Application.Any)
-//    }
 }
