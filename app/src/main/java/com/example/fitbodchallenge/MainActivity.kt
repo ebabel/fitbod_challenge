@@ -42,8 +42,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fitbodchallenge.ui.Graph
 import com.example.fitbodchallenge.ui.theme.FitbodChallengeTheme
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.android.Android
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
