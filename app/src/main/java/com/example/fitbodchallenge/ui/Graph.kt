@@ -1,12 +1,12 @@
 package com.example.fitbodchallenge.ui
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitbodchallenge.MainViewModel
@@ -15,7 +15,6 @@ import com.example.fitbodchallenge.ui.theme.sunglo
 import com.juul.krayon.axis.axisBottom
 import com.juul.krayon.axis.axisLeft
 import com.juul.krayon.axis.call
-import com.juul.krayon.color.Color
 import com.juul.krayon.color.transparent
 import com.juul.krayon.color.white
 import com.juul.krayon.compose.ElementView
@@ -56,21 +55,21 @@ private fun PreviewGraph() {
     }
 }
 
-
 private val solidLinePaint = Paint.Stroke(sunglo, 2f)
 private val gridLinePaint = Paint.Stroke(outerSpace, 1f)
-private val circlePaint = Paint.FillAndStroke(
-    Paint.Fill(sunglo),
-    Paint.Stroke(sunglo, 1f),
-)
+private val circlePaint =
+    Paint.FillAndStroke(
+        Paint.Fill(sunglo),
+        Paint.Stroke(sunglo, 1f),
+    )
 
 internal fun lineChart(
     root: RootElement,
     width: Float,
     height: Float,
-    data: List<MainViewModel.GraphPoint>
+    data: List<MainViewModel.GraphPoint>,
 ) {
-    val dataWithTime = data.map { it.date.atTime(0,0) to it.oneRepMax.toFloat() }
+    val dataWithTime = data.map { it.date.atTime(0, 0) to it.oneRepMax.toFloat() }
     val leftMargin = 55f
     val topMargin = 20f
     val rightMargin = 0f
@@ -79,28 +78,32 @@ internal fun lineChart(
     val innerWidth = width - leftMargin - rightMargin
     val innerHeight = height - topMargin - bottomMargin
 
-    val x = scale()
-        .domain(dataWithTime.extent { it.first })
-        .range(0f, innerWidth)
-    val y = scale()
-        .domain(dataWithTime.minOf { it.second }, dataWithTime.maxOf { it.second })
-        .range(innerHeight, 0f)
+    val x =
+        scale()
+            .domain(dataWithTime.extent { it.first })
+            .range(0f, innerWidth)
+    val y =
+        scale()
+            .domain(dataWithTime.minOf { it.second }, dataWithTime.maxOf { it.second })
+            .range(innerHeight, 0f)
 
-    val line = line<Pair<LocalDateTime, Float>>()
-        .x { (p) -> x.scale(p.first) }
-        .y { (p) -> y.scale(p.second) }
+    val line =
+        line<Pair<LocalDateTime, Float>>()
+            .x { (p) -> x.scale(p.first) }
+            .y { (p) -> y.scale(p.second) }
 
-    val body = root.asSelection()
-        .selectAll(TransformElement.withKind("body"))
-        .data(listOf(null))
-        .join { append(TransformElement).each { kind = "body" } }
-        .each {
-            transform = Transform.Translate(
-                horizontal = leftMargin,
-                vertical = topMargin,
-            )
-        }
-
+    val body =
+        root.asSelection()
+            .selectAll(TransformElement.withKind("body"))
+            .data(listOf(null))
+            .join { append(TransformElement).each { kind = "body" } }
+            .each {
+                transform =
+                    Transform.Translate(
+                        horizontal = leftMargin,
+                        vertical = topMargin,
+                    )
+            }
 
     val localDateTimes = dataWithTime.map { it.first }
     body.selectAll(LineElement.withKind("vertical-grid-line"))
@@ -140,14 +143,16 @@ internal fun lineChart(
             }
         }
         .each { transform = Transform.Translate(vertical = innerHeight) }
-        .call(axisBottom(x).apply {
-            textColor = white
-            formatter = {
-                val month = MonthNames.ENGLISH_ABBREVIATED.names[it.monthNumber - 1]
-                "$month ${it.dayOfMonth}"
-            }
-            lineColor = transparent
-        })
+        .call(
+            axisBottom(x).apply {
+                textColor = white
+                formatter = {
+                    val month = MonthNames.ENGLISH_ABBREVIATED.names[it.monthNumber - 1]
+                    "$month ${it.dayOfMonth}"
+                }
+                lineColor = transparent
+            },
+        )
 
     body.selectAll(GroupElement.withKind("y-axis"))
         .data(listOf(null))
@@ -156,13 +161,15 @@ internal fun lineChart(
                 kind = "y-axis"
             }
         }
-        .call(axisLeft(y).apply {
-            textColor = white
-            formatter = {
-                "${it.toInt()} lbs"
-            }
-            lineColor = transparent
-        })
+        .call(
+            axisLeft(y).apply {
+                textColor = white
+                formatter = {
+                    "${it.toInt()} lbs"
+                }
+                lineColor = transparent
+            },
+        )
 
     body.selectAll(PathElement.withKind("line"))
         .data(listOf(dataWithTime, dataWithTime))
@@ -189,15 +196,14 @@ internal fun lineChart(
 }
 
 @Composable
-fun Graph(
-    exerciseGraphDataFlow: Flow<List<MainViewModel.GraphPoint>>
-) {
+fun Graph(exerciseGraphDataFlow: Flow<List<MainViewModel.GraphPoint>>) {
     ElementView(
-        modifier = Modifier
-            .padding(horizontal = 15.dp)
-            .fillMaxWidth()
-            .height(400.dp),
+        modifier =
+            Modifier
+                .padding(horizontal = 15.dp)
+                .fillMaxWidth()
+                .height(400.dp),
         dataSource = exerciseGraphDataFlow,
-        updateElements = ::lineChart
+        updateElements = ::lineChart,
     )
 }

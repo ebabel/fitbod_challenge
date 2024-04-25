@@ -15,7 +15,6 @@ import com.example.fitbodchallenge.ui.ExerciseDetailPageContent
 import com.example.fitbodchallenge.ui.theme.FitbodChallengeTheme
 import java.net.URLDecoder
 import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 import java.nio.charset.StandardCharsets.UTF_8
 
 private const val ROUTE_EXERCISE_DETAIL_PARAM_NAME = "name"
@@ -23,7 +22,6 @@ private const val ROUTE_EXERCISE_DETAIL = "ExerciseDetail/{$ROUTE_EXERCISE_DETAI
 private const val ROUTE_HOME = "Home"
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,7 +38,7 @@ class MainActivity : ComponentActivity() {
                         WorkoutPageContent(
                             onDetailClicked = { name ->
                                 navController.navigate(
-                                    ROUTE_EXERCISE_DETAIL.withParam(name)
+                                    ROUTE_EXERCISE_DETAIL.withParam(name),
                                 )
                             },
                             exercises = exercises,
@@ -62,15 +60,17 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private fun String.withParam(name: String) = replace(
-    "{$ROUTE_EXERCISE_DETAIL_PARAM_NAME}",
-    URLEncoder.encode(name, UTF_8.toString())
-)
+private fun String.withParam(name: String) =
+    replace(
+        "{$ROUTE_EXERCISE_DETAIL_PARAM_NAME}",
+        URLEncoder.encode(name, UTF_8.toString()),
+    )
 
 @Composable
-private fun exerciseNameArgument(navBackStackEntry: NavBackStackEntry) = navBackStackEntry
-    .arguments
-    ?.getString(ROUTE_EXERCISE_DETAIL_PARAM_NAME)
-    .let {
-        URLDecoder.decode(it, UTF_8.toString())
-    } ?: error("Unexpectedly null argument for name")
+private fun exerciseNameArgument(navBackStackEntry: NavBackStackEntry) =
+    navBackStackEntry
+        .arguments
+        ?.getString(ROUTE_EXERCISE_DETAIL_PARAM_NAME)
+        .let {
+            URLDecoder.decode(it, UTF_8.toString())
+        } ?: error("Unexpectedly null argument for name")

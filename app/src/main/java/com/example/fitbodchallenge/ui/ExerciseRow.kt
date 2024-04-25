@@ -24,6 +24,7 @@ private fun PreviewExerciseRow() {
         ExerciseRow(onDetailClicked = {}, name = "example", oneRepMax = 1)
     }
 }
+
 @Composable
 fun ExerciseRow(
     modifier: Modifier = Modifier,
@@ -31,22 +32,22 @@ fun ExerciseRow(
     name: String,
     oneRepMax: Int,
 ) {
-
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-            .clickable {
-                onDetailClicked(name)
-            },
-        horizontalArrangement = Arrangement.SpaceBetween
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(15.dp)
+                .clickable {
+                    onDetailClicked(name)
+                },
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Column {
             Text(text = name, fontWeight = FontWeight.W500)
             Text(text = "1 RM Record", style = TextStyle(color = darkGrayText))
         }
         Column(
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = Alignment.End,
         ) {
             Text(text = oneRepMax.toString(), fontWeight = FontWeight.W500)
             Text(text = "lbs", style = TextStyle(color = darkGrayText))

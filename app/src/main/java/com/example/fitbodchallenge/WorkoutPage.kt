@@ -14,11 +14,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.fitbodchallenge.ui.ExerciseRow
 import com.example.fitbodchallenge.ui.theme.appBarColor
-
 
 @Preview
 @Composable
@@ -33,7 +31,7 @@ private fun PreviewWorkoutPageContent() {
 @Composable
 fun WorkoutPageContent(
     onDetailClicked: (String) -> Unit,
-    exercises: Map<String, Int>
+    exercises: Map<String, Int>,
 ) {
     Scaffold(
         topBar = {
@@ -42,11 +40,12 @@ fun WorkoutPageContent(
                 navigationIcon = {
                     Icon(Icons.Filled.Menu, contentDescription = "Menu icon")
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = appBarColor,
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = appBarColor,
+                    ),
             )
-        }
+        },
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier.padding(paddingValues),
@@ -55,12 +54,10 @@ fun WorkoutPageContent(
                 ExerciseRow(
                     onDetailClicked = onDetailClicked,
                     name = exercise,
-                    oneRepMax = oneRepMax
+                    oneRepMax = oneRepMax,
                 )
                 Divider()
             }
         }
     }
-
 }
-
