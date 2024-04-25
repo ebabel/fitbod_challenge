@@ -50,6 +50,8 @@ class MainViewModel : ViewModel() {
                 .filter { it.isNotEmpty() }
                 .map { it.split(",") }
                 .map {
+                    // Row example:
+                    //Oct 11 2020,Back Squat,6,245
                     val date = it[0].split(" ")
                     val monthNumber = MonthNames.ENGLISH_ABBREVIATED.names.indexOf(date[0]) + 1
                     val localDate = LocalDate(
