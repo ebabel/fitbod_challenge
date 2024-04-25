@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.fitbodchallenge.MainViewModel
 import com.example.fitbodchallenge.model.Exercise
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.emptyFlow
 
 
 @Preview
@@ -31,7 +31,7 @@ private fun PreviewExerciseDetailPageContent() {
         exercise = "Back Squat",
         onNavigateBack = {},
         exercises = emptyList(),
-        exerciseGraphDataFlow = flow {  },
+        exerciseGraphDataFlow = emptyFlow(),
     )
 }
 
@@ -43,6 +43,7 @@ fun ExerciseDetailPageContent(
     exerciseGraphDataFlow: Flow<List<MainViewModel.GraphPoint>>
 ) {
     if (exercises.isEmpty()) {
+        Text("No data")
         return
     }
     Scaffold(

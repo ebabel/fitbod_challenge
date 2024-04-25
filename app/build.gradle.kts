@@ -4,7 +4,7 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(libs.versions.jvm.toolchain.get().toInt())
+    jvmToolchain(libs.versions.jvmToolchain.get().toInt())
 }
 
 android {
@@ -24,26 +24,8 @@ android {
         }
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    compileOptions {
-        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -52,7 +34,7 @@ dependencies {
     implementation(libs.krayon.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.datetime)
-    implementation (libs.ktor.client.android)
+    implementation(libs.ktor.client.android)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

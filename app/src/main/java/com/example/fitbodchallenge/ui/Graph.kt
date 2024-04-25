@@ -39,7 +39,7 @@ import com.juul.krayon.selection.join
 import com.juul.krayon.selection.selectAll
 import com.juul.krayon.shape.line
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.atTime
 import kotlinx.datetime.format.MonthNames
@@ -49,18 +49,18 @@ import kotlinx.datetime.format.MonthNames
 private fun PreviewGraph() {
     Column(Modifier.fillMaxSize()) {
         Graph(
-            flowOf(),
+            emptyFlow(),
         )
     }
 }
 
-
-val red = Color(0xFFE07161.toInt())
-private val solidLinePaint = Paint.Stroke(red, 2f)
-private val gridLinePaint = Paint.Stroke(Color(0xFF2F3232.toInt()), 1f)
+val sunglo = Color(0xFFE07161.toInt())
+val outerSpace = 0xFF2F3232
+private val solidLinePaint = Paint.Stroke(sunglo, 2f)
+private val gridLinePaint = Paint.Stroke(Color(outerSpace.toInt()), 1f)
 private val circlePaint = Paint.FillAndStroke(
-    Paint.Fill(red),
-    Paint.Stroke(red, 1f),
+    Paint.Fill(sunglo),
+    Paint.Stroke(sunglo, 1f),
 )
 
 internal fun lineChart(
