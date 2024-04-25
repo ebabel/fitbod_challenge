@@ -3,6 +3,10 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
+kotlin {
+    jvmToolchain(libs.versions.jvm.toolchain.get().toInt())
+}
+
 android {
     namespace = "com.example.fitbodchallenge"
     compileSdk = 34
@@ -26,13 +30,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+
     buildFeatures {
         compose = true
     }
@@ -44,10 +42,14 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    compileOptions {
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 }
 
 dependencies {
-
+    implementation(libs.krayon.box)
+    implementation(libs.krayon.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.datetime)
     implementation (libs.ktor.client.android)

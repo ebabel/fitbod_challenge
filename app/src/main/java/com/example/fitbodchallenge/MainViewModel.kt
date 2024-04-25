@@ -27,11 +27,18 @@ class MainViewModel : ViewModel() {
             .mapValues { groupList -> groupList.value.maxOf { exercise -> exercise.weight } }
     }
 
+    fun exerciseDetails(name: String) = _workoutData.map {
+        it.filter { it.name == name }
+    }
+    fun exerciseGraphDataSource(name: String) = _workoutData.map {
+        it.filter { it.name == name }.groupBy { it.date }.map { it.key to it.value.maxOf { it.weight } }.toList()
+    }
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
 
             val workoutData: String =
-                // You can inline your own workout data here:
+                // Inline your own workout data as a string:
                 ktorHttpClient.get(FILE_LOCATION)
 
             workoutData
