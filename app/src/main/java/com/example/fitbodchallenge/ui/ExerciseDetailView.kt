@@ -18,10 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.fitbodchallenge.MainViewModel
 import com.example.fitbodchallenge.model.Exercise
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.LocalDate
 
 
 @Preview
@@ -40,7 +40,7 @@ fun ExerciseDetailPageContent(
     exercise: String,
     onNavigateBack: () -> Unit,
     exercises: List<Exercise>,
-    exerciseGraphDataFlow: Flow<List<Pair<LocalDate, Int>>>
+    exerciseGraphDataFlow: Flow<List<MainViewModel.GraphPoint>>
 ) {
     if (exercises.isEmpty()) {
         return

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.fitbodchallenge.MainViewModel
 import com.juul.krayon.axis.axisBottom
 import com.juul.krayon.axis.axisLeft
 import com.juul.krayon.axis.call
@@ -72,9 +73,9 @@ internal fun lineChart(
     root: RootElement,
     width: Float,
     height: Float,
-    data: List<Pair<LocalDate, Int>>
+    data: List<MainViewModel.GraphPoint>
 ) {
-    val dataWithTime = data.map { it.first.atTime(0,0) to it.second.toFloat() }
+    val dataWithTime = data.map { it.date.atTime(0,0) to it.oneRepMax.toFloat() }
     val leftMargin = 55f
     val topMargin = 20f
     val rightMargin = 0f
@@ -195,7 +196,7 @@ internal fun lineChart(
 
 @Composable
 fun Graph(
-    exerciseGraphDataFlow: Flow<List<Pair<LocalDate, Int>>>
+    exerciseGraphDataFlow: Flow<List<MainViewModel.GraphPoint>>
 ) {
 
     ElementView(
