@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.fitbodchallenge.MainViewModel
 import com.example.fitbodchallenge.model.Exercise
+import com.example.fitbodchallenge.ui.theme.appBarColor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -56,7 +57,7 @@ fun ExerciseDetailPageContent(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFE07161),
+                    containerColor = appBarColor,
                 )
             )
         }

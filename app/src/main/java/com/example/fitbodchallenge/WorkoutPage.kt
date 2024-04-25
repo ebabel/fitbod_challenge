@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.fitbodchallenge.ui.ExerciseRow
+import com.example.fitbodchallenge.ui.theme.appBarColor
 
 
 @Preview
@@ -42,7 +43,7 @@ fun WorkoutPageContent(
                     Icon(Icons.Filled.Menu, contentDescription = "Menu icon")
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFE07161),
+                    containerColor = appBarColor,
                 )
             )
         }

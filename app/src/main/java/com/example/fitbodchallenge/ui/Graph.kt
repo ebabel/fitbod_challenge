@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitbodchallenge.MainViewModel
+import com.example.fitbodchallenge.ui.theme.outerSpace
+import com.example.fitbodchallenge.ui.theme.sunglo
 import com.juul.krayon.axis.axisBottom
 import com.juul.krayon.axis.axisLeft
 import com.juul.krayon.axis.call
@@ -54,10 +56,9 @@ private fun PreviewGraph() {
     }
 }
 
-val sunglo = Color(0xFFE07161.toInt())
-val outerSpace = 0xFF2F3232
+
 private val solidLinePaint = Paint.Stroke(sunglo, 2f)
-private val gridLinePaint = Paint.Stroke(Color(outerSpace.toInt()), 1f)
+private val gridLinePaint = Paint.Stroke(outerSpace, 1f)
 private val circlePaint = Paint.FillAndStroke(
     Paint.Fill(sunglo),
     Paint.Stroke(sunglo, 1f),
