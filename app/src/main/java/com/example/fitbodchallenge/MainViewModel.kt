@@ -70,6 +70,8 @@ class MainViewModel : ViewModel() {
                             name = it[1],
                             reps = reps,
                             weight = weight,
+                            // TODO: not sure if this is supposed to be a cumulative max,
+                            //       max per day, average per day, or depends on the page?
                             brzycki = weight * 36f / (37f - reps)
                         )
                     }
