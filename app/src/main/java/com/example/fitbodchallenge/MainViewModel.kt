@@ -18,7 +18,6 @@ private const val FILE_LOCATION =
 
 class MainViewModel : ViewModel() {
 
-
     private val ktorHttpClient = HttpClient(Android)
     private val _workoutData = MutableStateFlow<List<Exercise>>(emptyList())
     val exercises = _workoutData.map { exerciseList ->
@@ -68,6 +67,5 @@ class MainViewModel : ViewModel() {
                     _workoutData.value = it
                 }
         }
-
     }
 }

@@ -14,7 +14,6 @@ import com.juul.krayon.axis.axisBottom
 import com.juul.krayon.axis.axisLeft
 import com.juul.krayon.axis.call
 import com.juul.krayon.color.Color
-import com.juul.krayon.color.darkGray
 import com.juul.krayon.color.transparent
 import com.juul.krayon.color.white
 import com.juul.krayon.compose.ElementView
@@ -41,7 +40,6 @@ import com.juul.krayon.selection.selectAll
 import com.juul.krayon.shape.line
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.atTime
 
@@ -59,8 +57,6 @@ private fun PreviewGraph() {
 val red = Color(0xFFE07161.toInt())
 private val solidLinePaint = Paint.Stroke(red, 2f)
 private val gridLinePaint = Paint.Stroke(Color(0xFF2F3232.toInt()), 1f)
-private val dashedLinePaint =
-    Paint.Stroke(white, 0.5f, dash = Paint.Stroke.Dash.Pattern(5f, 5.5f))
 private val circlePaint = Paint.FillAndStroke(
     Paint.Fill(red),
     Paint.Stroke(red, 1f),
@@ -108,7 +104,6 @@ internal fun lineChart(
 
 
     val localDateTimes = dataWithTime.map { it.first }
-    val oneRepMaxes = dataWithTime.map { it.second }
     body.selectAll(LineElement.withKind("vertical-grid-line"))
         .data(ticks(localDateTimes.min(), localDateTimes.max(), 5))
         .join {
@@ -123,8 +118,9 @@ internal fun lineChart(
             paint = gridLinePaint
         }
 
+    val oneRepMaxes = dataWithTime.map { it.second }
     body.selectAll(LineElement.withKind("horizontal-grid-line"))
-        .data(ticks(oneRepMaxes.min().toFloat(), oneRepMaxes.max().toFloat(), 5))
+        .data(ticks(oneRepMaxes.min(), oneRepMaxes.max(), 5))
         .join {
             append(LineElement).each {
                 kind = "horizontal-grid-line"
@@ -136,8 +132,6 @@ internal fun lineChart(
             endY = startY
             paint = gridLinePaint
         }
-
-
 
     body.selectAll(TransformElement.withKind("x-axis"))
         .data(listOf(null))
@@ -171,9 +165,9 @@ internal fun lineChart(
         })
 
     body.selectAll(PathElement.withKind("line"))
-        .data(listOf(dataWithTime.filterNotNull(), dataWithTime))
+        .data(listOf(dataWithTime, dataWithTime))
         .join {
-            append(PathElement).each { (_, i) ->
+            append(PathElement).each { (_, _) ->
                 kind = "line"
                 paint = solidLinePaint
             }
@@ -182,7 +176,7 @@ internal fun lineChart(
         }
 
     body.selectAll(CircleElement)
-        .data(dataWithTime.filterNotNull())
+        .data(dataWithTime)
         .join {
             append(CircleElement).each {
                 radius = 3f
@@ -190,7 +184,7 @@ internal fun lineChart(
             }
         }.each { (d) ->
             centerX = x.scale(d.first)
-            centerY = y.scale(d.second.toFloat())
+            centerY = y.scale(d.second)
         }
 }
 
@@ -198,7 +192,6 @@ internal fun lineChart(
 fun Graph(
     exerciseGraphDataFlow: Flow<List<MainViewModel.GraphPoint>>
 ) {
-
     ElementView(
         modifier = Modifier
             .padding(horizontal = 15.dp)
@@ -207,5 +200,4 @@ fun Graph(
         dataSource = exerciseGraphDataFlow,
         updateElements = ::lineChart
     )
-
 }

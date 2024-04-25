@@ -35,7 +35,6 @@ import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-
 private const val ROUTE_EXERCISE_DETAIL_PARAM_NAME = "name"
 private const val ROUTE_EXERCISE_DETAIL = "ExerciseDetail/{$ROUTE_EXERCISE_DETAIL_PARAM_NAME}"
 private const val ROUTE_HOME = "Home"
@@ -79,8 +78,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-
 }
 
 private fun String.withParam(name: String) = replace(
