@@ -71,7 +71,6 @@ class MainActivity : ComponentActivity() {
                             onNavigateBack = { navController.popBackStack() },
                             exercise = name,
                             exercises = viewModel.exerciseDetails(name).collectAsState(initial = emptyList()).value,
-                            exerciseFlow = viewModel.exerciseDetails(name),
                             exerciseGraphDataFlow = viewModel.exerciseGraphDataSource(name),
                         )
                     }

@@ -31,7 +31,6 @@ private fun PreviewExerciseDetailPageContent() {
         exercise = "Back Squat",
         onNavigateBack = {},
         exercises = emptyList(),
-        exerciseFlow = flow {  },
         exerciseGraphDataFlow = flow {  },
     )
 }
@@ -41,7 +40,6 @@ fun ExerciseDetailPageContent(
     exercise: String,
     onNavigateBack: () -> Unit,
     exercises: List<Exercise>,
-    exerciseFlow: Flow<List<Exercise>>,
     exerciseGraphDataFlow: Flow<List<Pair<LocalDate, Int>>>
 ) {
     if (exercises.isEmpty()) {

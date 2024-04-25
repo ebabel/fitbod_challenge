@@ -31,8 +31,13 @@ class MainViewModel : ViewModel() {
         it.filter { it.name == name }
     }
     fun exerciseGraphDataSource(name: String) = _workoutData.map {
-        it.filter { it.name == name }.groupBy { it.date }.map { it.key to it.value.maxOf { it.weight } }.toList()
+        it.filter { it.name == name }
+            .groupBy { it.date }
+            .map { GraphPoint(it.key, it.value.maxOf { it.weight }) }
+            .toList()
     }
+
+    data class GraphPoint(val date: LocalDate, val oneRepMax: Int)
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
