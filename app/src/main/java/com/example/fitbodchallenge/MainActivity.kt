@@ -107,7 +107,6 @@ private fun WorkoutPageContent(
     onDetailClicked: (String) -> Unit,
     exercises: Map<String, Int>
 ) {
-
     Scaffold(
         topBar = {
             TopAppBar(

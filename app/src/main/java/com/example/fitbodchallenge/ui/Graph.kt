@@ -42,6 +42,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.atTime
+import kotlinx.datetime.format.MonthNames
 
 @Preview
 @Composable
@@ -61,9 +62,6 @@ private val circlePaint = Paint.FillAndStroke(
     Paint.Fill(red),
     Paint.Stroke(red, 1f),
 )
-private val months =
-    listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec")
-
 
 internal fun lineChart(
     root: RootElement,
@@ -144,7 +142,8 @@ internal fun lineChart(
         .call(axisBottom(x).apply {
             textColor = white
             formatter = {
-                "${months[it.monthNumber - 1]} ${it.dayOfMonth}"
+                val month = MonthNames.ENGLISH_ABBREVIATED.names[it.monthNumber - 1]
+                "$month ${it.dayOfMonth}"
             }
             lineColor = transparent
         })
