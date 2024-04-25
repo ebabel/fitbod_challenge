@@ -1,5 +1,6 @@
 package com.example.fitbodchallenge.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitbodchallenge.MainViewModel
@@ -40,7 +42,8 @@ import com.juul.krayon.selection.join
 import com.juul.krayon.selection.selectAll
 import com.juul.krayon.shape.line
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.atTime
 import kotlinx.datetime.format.MonthNames
@@ -48,9 +51,17 @@ import kotlinx.datetime.format.MonthNames
 @Preview
 @Composable
 private fun PreviewGraph() {
-    Column(Modifier.fillMaxSize()) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.Black)) {
         Graph(
-            emptyFlow(),
+            flowOf(
+                listOf(
+                    MainViewModel.GraphPoint(LocalDate(1999, 1, 1), 52f),
+                    MainViewModel.GraphPoint(LocalDate(1999, 1, 2), 93f),
+                )
+            ),
         )
     }
 }
@@ -69,7 +80,8 @@ internal fun lineChart(
     height: Float,
     data: List<MainViewModel.GraphPoint>,
 ) {
-    val dataWithTime = data.map { it.date.atTime(0, 0) to it.oneRepMax.toFloat() }
+    // hack due to weirdness with multiplying dates by fractions
+    val dataWithTime = data.map { it.date.atTime(0, 0) to it.oneRepMax }
     val leftMargin = 55f
     val topMargin = 20f
     val rightMargin = 0f
@@ -199,10 +211,10 @@ internal fun lineChart(
 fun Graph(exerciseGraphDataFlow: Flow<List<MainViewModel.GraphPoint>>) {
     ElementView(
         modifier =
-            Modifier
-                .padding(horizontal = 15.dp)
-                .fillMaxWidth()
-                .height(400.dp),
+        Modifier
+            .padding(horizontal = 15.dp)
+            .fillMaxWidth()
+            .height(400.dp),
         dataSource = exerciseGraphDataFlow,
         updateElements = ::lineChart,
     )

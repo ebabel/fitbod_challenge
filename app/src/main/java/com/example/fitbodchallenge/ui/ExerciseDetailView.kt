@@ -69,7 +69,7 @@ fun ExerciseDetailPageContent(
             ExerciseRow(
                 onDetailClicked = {},
                 name = exercise,
-                oneRepMax = exercises.maxOf { it.weight },
+                oneRepMax = exercises.maxOf { it.brzycki },
             )
             Graph(
                 exerciseGraphDataFlow = exerciseGraphDataFlow,

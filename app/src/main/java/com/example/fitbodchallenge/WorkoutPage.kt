@@ -5,8 +5,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,7 +31,7 @@ private fun PreviewWorkoutPageContent() {
 @Composable
 fun WorkoutPageContent(
     onDetailClicked: (String) -> Unit,
-    exercises: Map<String, Int>,
+    exercises: Map<String, Float>,
 ) {
     Scaffold(
         topBar = {
@@ -56,7 +56,7 @@ fun WorkoutPageContent(
                     name = exercise,
                     oneRepMax = oneRepMax,
                 )
-                Divider()
+                HorizontalDivider()
             }
         }
     }

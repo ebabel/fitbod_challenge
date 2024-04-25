@@ -22,7 +22,7 @@ class MainViewModel : ViewModel() {
         _workoutData.map { exerciseList ->
             exerciseList
                 .groupBy { exercise -> exercise.name }
-                .mapValues { groupList -> groupList.value.maxOf { exercise -> exercise.weight } }
+                    .mapValues { groupList -> groupList.value.maxOf { exercise -> exercise.brzycki } }
         }
 
     fun exerciseDetails(name: String) =
@@ -34,11 +34,11 @@ class MainViewModel : ViewModel() {
         _workoutData.map {
             it.filter { it.name == name }
                 .groupBy { it.date }
-                .map { GraphPoint(it.key, it.value.maxOf { it.weight }) }
+                .map { GraphPoint(it.key, it.value.maxOf { it.brzycki }) }
                 .toList()
         }
 
-    data class GraphPoint(val date: LocalDate, val oneRepMax: Int)
+    data class GraphPoint(val date: LocalDate, val oneRepMax: Float)
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -63,11 +63,14 @@ class MainViewModel : ViewModel() {
                                 monthNumber = monthNumber,
                                 year = date[2].toInt(),
                             )
+                        val reps = it[2].toInt()
+                        val weight = it[3].toInt()
                         Exercise(
                             date = localDate,
                             name = it[1],
-                            reps = it[2].toInt(),
-                            weight = it[3].toInt(),
+                            reps = reps,
+                            weight = weight,
+                            brzycki = weight * 36f / (37f - reps)
                         )
                     }
         }

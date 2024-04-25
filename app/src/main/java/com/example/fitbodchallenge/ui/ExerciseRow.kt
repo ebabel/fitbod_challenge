@@ -16,12 +16,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitbodchallenge.ui.theme.darkGrayText
+import kotlin.math.roundToInt
 
 @Preview
 @Composable
 private fun PreviewExerciseRow() {
     Column(Modifier.fillMaxSize()) {
-        ExerciseRow(onDetailClicked = {}, name = "example", oneRepMax = 1)
+        ExerciseRow(onDetailClicked = {}, name = "example", oneRepMax = 1f)
     }
 }
 
@@ -30,7 +31,7 @@ fun ExerciseRow(
     modifier: Modifier = Modifier,
     onDetailClicked: (String) -> Unit,
     name: String,
-    oneRepMax: Int,
+    oneRepMax: Float,
 ) {
     Row(
         modifier =
@@ -49,7 +50,7 @@ fun ExerciseRow(
         Column(
             horizontalAlignment = Alignment.End,
         ) {
-            Text(text = oneRepMax.toString(), fontWeight = FontWeight.W500)
+            Text(text = oneRepMax.roundToInt().toString(), fontWeight = FontWeight.W500)
             Text(text = "lbs", style = TextStyle(color = darkGrayText))
         }
     }
